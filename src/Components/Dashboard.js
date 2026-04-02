@@ -3,13 +3,16 @@ import { auth, db } from "../Firebase/config"
 import {addDoc, onSnapshot, getDocs, collection, where, query, orderBy, serverTimestamp} from "firebase/firestore"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
 import Item from './Item'
 import SaleEventItem from './SaleEventItem'
+import UpdateItem from './UpdateItem'
+import EditItems from './EditItems'
 
 const Dashboard = (props) => {
     const [allItems, setAllItems] = useState([])
     const [saleEvents, setSaleEvents] = useState([])
+    const [editingItem, setEditingItem] = useState(null)
+    const [isAddingItem, setIsAddingItem] = useState(false)
     const navigate = useNavigate()
     const [user, loading] = useAuthState(auth)
 
@@ -65,6 +68,24 @@ const Dashboard = (props) => {
         }
     }
 
+    const handleEditItem = (e, item) => {
+        console.log('edit item')
+        e.stopPropagation()
+        setEditingItem(item)
+    }
+
+    const handleCloseEditModal = () => {
+        setEditingItem(null)
+    }
+
+    const handleOpenAddModal = () => {
+        setIsAddingItem(true)
+    }
+
+    const handleCloseAddModal = () => {
+        setIsAddingItem(false)
+    }
+
     return (
         <div className={`bg-neutral-50 ${allItems.length == 0 ? 'h-screen' : 'h-full'} max-w-screen-xl m-auto`}>
             {allItems.length == 0 && 
@@ -84,17 +105,15 @@ const Dashboard = (props) => {
                         </div>
                     }
                     {(allItems !== []) && allItems.map(item => {
-                        return <Item item={item} key={item.id} />
+                        return <Item item={item} key={item.id} onEdit={handleEditItem} />
                     })}
                 </div>
-                <Link to='/edit-items' className='justify-self-start'>
-                    <button type="button" className="bg-neutral-700 rounded px-2 text-white hover:bg-blue-500">Add an Item</button>
-                </Link>
+                <button type="button" onClick={handleOpenAddModal} className="justify-self-start bg-neutral-700 rounded px-4 py-2 text-white hover:bg-blue-500">Add an Item</button>
             </div>
             {allItems.length > 0 && 
                 <div className='grid gap-4 bg-slate-200 mx-8 py-24 px-8 rounded-lg'>
                 <h1 className="text-4xl font-bold">Ready to sell?</h1>
-                <button type="button" onClick={handleNewSale} className="bg-neutral-700 rounded px-2 text-white hover:bg-blue-500 justify-self-start">Begin New Sale</button>
+                <button type="button" onClick={handleNewSale} className="bg-neutral-700 rounded px-4 py-2 text-white hover:bg-blue-500 justify-self-start">Begin New Sale</button>
                 </div>
             }
             <div className={`grid gap-4 ${allItems.length > 0 ? 'py-24' : 'py-12'} px-4`}>
@@ -110,6 +129,22 @@ const Dashboard = (props) => {
                 })}
             </div>
             </div>
+            {editingItem && (
+                <UpdateItem
+                    itemId={editingItem.id}
+                    initialItem={editingItem}
+                    onClose={handleCloseEditModal}
+                    onSaved={handleCloseEditModal}
+                    isModal={true}
+                />
+            )}
+            {isAddingItem && (
+                <EditItems
+                    isModal={true}
+                    onClose={handleCloseAddModal}
+                    onSaved={handleCloseAddModal}
+                />
+            )}
         </div>
     )
 }

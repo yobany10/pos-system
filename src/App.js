@@ -6,8 +6,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import Home from './Components/Home'
 import Dashboard from './Components/Dashboard'
 import Login from './Auth/Login'
-import EditItems from './Components/EditItems'
-import UpdateItem from './Components/UpdateItem'
 import Sell from './Components/Sell'
 import useOutsideClick from './Hooks/useOutsideClick'
 import {ToastContainer, toast} from 'react-toastify'
@@ -65,8 +63,6 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<Dashboard user={user} />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/edit-items' element={<EditItems />} />
-        <Route path='/update-item/:itemid' element={<UpdateItem />} />
         <Route path='/sell/:saleid' element={<Sell />} />
       </Routes>
     </div>
