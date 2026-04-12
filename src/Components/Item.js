@@ -10,7 +10,7 @@ const Item = (props) => {
     }
 
     return (
-        <div className='grid grid-flow-row gap-2 max-w-xs bg-white rounded px-6 py-4 drop-shadow-md cursor-pointer' onClick={(e) => props.onEdit(e, props.item)}>
+        <div className='grid grid-flow-row gap-2 max-w-xs bg-white rounded px-6 py-4 shadow-xl cursor-pointer' onClick={(e) => props.onEdit(e, props.item)}>
             <p className='font-bold text-lg'>{props.item.name}</p>
             <p className='text-gray-500'>{props.item.description}</p>
             <div className='flex justify-between self-end'>

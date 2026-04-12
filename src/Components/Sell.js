@@ -111,12 +111,18 @@ const Sell = () => {
             return
         }
         const transactionStatsTemp = {...transactionStats}
+
         let salesTotal = transactions.map(item => Number(item.totalDue)).reduce((acc, curr) => acc + curr)
         transactionStatsTemp.salesTotal = salesTotal
+
         let totalPaid = transactions.map(item => Number(item.amountPaid)).reduce((acc, curr) => acc + curr)
         transactionStatsTemp.totalPaid = totalPaid
+
         let totalLeftToPay = (salesTotal - totalPaid)
         transactionStatsTemp.totalLeftToPay = totalLeftToPay
+
+        console.log(transactionStatsTemp)
+
         setTransactionStats(transactionStatsTemp)
     }
 
@@ -182,12 +188,12 @@ const Sell = () => {
 
     return (
         <div className='bg-neutral-50 h-screen'>
-            <div className='grid py-2 px-4 bg-slate-200'>
+            <div className='grid py-4 px-4 bg-slate-200'>
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 max-w-screen-xl w-full m-auto'>
                     <form className='h-min justify-self-center sm:justify-self-center md:justify-self-start lg:justify-self-start xl:justify-self-start' onSubmit={handleNameUpdate}>
                         <label>
-                            Event name:
-                            <input type='text' className='justify-self-start rounded text-black px-1 mx-2'
+                            Event Name:
+                            <input type='text' className='justify-self-start rounded text-black px-1 mx-2 border border-black'
                             value={eventName}
                             onChange={(e) => {
                                 setEventName(e.target.value)
@@ -198,8 +204,8 @@ const Sell = () => {
                         {renderEventSubmit && <button type='submit' className='bg-blue-500 hover:bg-blue-600 rounded text-white px-4'>Submit</button>}
                     </form>
                     <div className='flex justify-self-center sm:justify-self-center md:justify-self-end lg:justify-self-end xl:justify-self-end h-min'>
-                        <button type='button' onClick={() => setSellView(true)} className={`text-sm px-2 rounded-l-full border ${sellView ? 'bg-blue-500 hover:bg-blue-600 border-blue-500 text-white' : 'bg-neutral-50 border-blue-500 text-blue-500 hover:text-blue-600'}`}>Create Order</button>
-                        <button type='button' onClick={() => setSellView(false)} className={`text-sm px-2 rounded-r-full border ${sellView ? 'bg-neutral-50 border-blue-500 text-blue-500 hover:text-blue-600' : 'bg-blue-500 hover:bg-blue-600 border-blue-500 text-white'}`}>View Transactions</button>
+                        <button type='button' onClick={() => setSellView(true)} className={`text-sm px-3 py-1 rounded-l-full border-2 border-black text-black ${sellView ? 'bg-blue-100 hover:bg-blue-200' : 'bg-neutral-50 hover:bg-blue-200'}`}>Create Order</button>
+                        <button type='button' onClick={() => setSellView(false)} className={`text-sm px-3 py-1 rounded-r-full border-2 border-l-0 border-black text-black ${sellView ? 'bg-neutral-50 hover:bg-blue-200' : 'bg-blue-100 hover:bg-blue-200'}`}>View Transactions</button>
                     </div>
                 </div>
             </div>
@@ -256,7 +262,7 @@ const Sell = () => {
                         return <SellItem allItems={allItems} setAllItems={setAllItems} item={item} index={index} orderItems={orderItems} setOrderItems={setOrderItems} order={order} setOrder={setOrder} key={item.id} />
                     })}
                 </div>
-                <div className='grid bg-slate-200 rounded col-span-1 p-2 gap-4'>
+                <div className='grid bg-slate-200 rounded col-span-1 px-6 py-8 gap-4'>
                     <div>
                         <form>
                             <label className='grid gap-2 justify-self-center w-full'>
@@ -267,7 +273,7 @@ const Sell = () => {
                                         orderTemp.clientName = e.target.value
                                         setOrder({...orderTemp})
                                     }}
-                                    className='justify-self-center w-full rounded text-black px-1'
+                                    className='justify-self-center w-full rounded text-black px-1 border border-black'
                                     ></input>
                             </label>
                         </form>
@@ -277,12 +283,12 @@ const Sell = () => {
                             return <OrderItem item={item} key={item.id} />
                         })}
                     </div>
-                    <div className='bg-blue-500 rounded p-2 text-white'>
-                        <p className='text-sm'>Total Due: ${priceFormat(order.totalDue)}</p>
-                        {order.changeNeeded > 0 && <p className='text-sm'>Change Needed: ${priceFormat(order.changeNeeded)}</p>}
-                        {(order.totalDue - order.amountPaid) > 0 && <p className='text-sm'>Client Owes: ${priceFormat(order.totalDue - order.amountPaid)}</p>}
+                    <div className= 'p-2 text-white border-y border-slate-500'>
+                        <p className='text-black'>Total Due: ${priceFormat(order.totalDue)}</p>
+                        {order.changeNeeded > 0 && <p className='text-black'>Change Needed: ${priceFormat(order.changeNeeded)}</p>}
+                        {(order.totalDue - order.amountPaid) > 0 && <p className='text-black'>Client Owes: ${priceFormat(order.totalDue - order.amountPaid)}</p>}
                     </div>
-                    <form>
+                    <form className='grid gap-4'>
                         <label className='grid gap-2 justify-self-center w-full'>
                             Amount Paid:
                                 <input type='number' step='0.01' value={order.amountPaid}
@@ -293,7 +299,7 @@ const Sell = () => {
                                     orderTemp.changeNeeded = changeNeeded
                                     setOrder({...orderTemp})
                                 }}
-                                className='justify-self-center w-full rounded text-black px-1'
+                                className='justify-self-center w-full rounded text-black px-1 border border-black'
                                 ></input>
                         </label>
                         <label className='grid gap-2 justify-self-center w-full'>
@@ -304,11 +310,11 @@ const Sell = () => {
                                     orderTemp.changeReturned = e.target.value
                                     setOrder({...orderTemp})
                                 }}
-                                className='justify-self-center w-full rounded text-black px-1'
+                                className='justify-self-center w-full rounded text-black px-1 border border-black'
                                 ></input>
                         </label>
                     </form>
-                    <button type='submit' className='bg-blue-500 hover:bg-blue-600 rounded text-white' onClick={handleOrderSubmit}>Submit</button>
+                    <button type='submit' className='bg-blue-500 hover:bg-blue-600 rounded text-white px-4 py-2' onClick={handleOrderSubmit}>Submit</button>
                 </div>
             </div>
             </div>

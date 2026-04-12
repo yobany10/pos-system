@@ -18,7 +18,7 @@ const SellItem = (props) => {
     }
     
     return (
-        <div className='grid grid-flow-row gap-2 max-w-xs select-none bg-white rounded p-2 drop-shadow-md self-start'>
+        <div className='grid grid-flow-row gap-2 max-w-xs select-none bg-white rounded px-6 py-4 shadow-xl self-start'>
             <p className='font-bold'>{props.item.name}</p>
             <p>{props.item.description}</p>
             <p className='text-orange-500'>${props.item.price}</p>

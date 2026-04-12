@@ -5,7 +5,7 @@ const OrderItem = (props) => {
     }
 
     return (
-        <div className='bg-white px-2 self-start justify-self-stretch rounded drop-shadow-md'>
+        <div className='bg-white px-6 py-2 self-start justify-self-stretch rounded drop-shadow-md'>
             <p className=''>{props.item.name}</p>
             <div className='flex justify-between'>
                 <p className='text-orange-500'>${props.item.price}</p>

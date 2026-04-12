@@ -17,7 +17,7 @@ const SaleEventItem = (props) => {
     }
 
     return (
-        <div className='grid grid-flow-row gap-2 max-w-xs bg-white rounded px-6 py-4 drop-shadow-md cursor-pointer' onClick={goToSale}>
+        <div className='grid grid-flow-row gap-2 max-w-xs bg-white rounded px-6 py-4 shadow-xl cursor-pointer' onClick={goToSale}>
             <p className='font-bold text-lg'>{props.item.name == '' ? 'Untitled Sale' : props.item.name}</p>
             <div className='flex justify-between self-end'>
                 <p className='text-gray-500'>{props.item.timestamp != null && new Date(props.item.timestamp.seconds * 1000).toLocaleDateString()}</p>
